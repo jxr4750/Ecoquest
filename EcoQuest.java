@@ -75,7 +75,7 @@ public class EcoQuest {
                 return;
             }
         }
-
+        /*THIS PART IS NOT NEEDED I ADDED A BETTER IMPLEMENTATION OF THE ADMIN  MENU - SHUBHAM 
         boolean admin = adminCheck(username,pin); //MARKER: check admin status for the current user
         boolean signin = login.authenticate(username,pin); //THIS IS JUST A MARKER FOR NOW
         
@@ -112,7 +112,14 @@ public class EcoQuest {
             default:
             System.out.println("Default Statement");
             break;
-        }//close admin switch
+        }//close admin switch*/
+        if (currentUser.isAdmin()) {
+            System.out.println("\n--- ADMIN LOGIN SUCCESSFUL ---");
+            // Call the admin menu
+            adminMenu(Scanner, users); 
+            saveUsers(users);
+        }
+        
 
         //Regular Log in: Select Region, Display LeaderBoard, Add activity, Points shop(?), "battle pass"(?), history, account management
         //Regular Log in: Select Region, Display LeaderBoard, Add activity, Points shop(?), "battle pass"(?), history, account management
@@ -181,6 +188,10 @@ public class EcoQuest {
             this.admin = admin;
         }
 
+        // ADDED: Setters for Admin to directly modify score and admin status - Shubham
+        public void setScore(int score) { this.score = score; }
+        public void setAdmin(boolean admin) { this.admin = admin; }
+        
         // ADDED: getters and setters-Saish
         public String getFirstName() { return firstName; }
         public String getLastName() { return lastName; }
@@ -189,10 +200,11 @@ public class EcoQuest {
         public int getScore() { return score; }
         public boolean isAdmin() { return admin; }
         public void addPoints(int pts) { this.score += pts; }
-
+        
         @Override
         public String toString() {
             return String.format("%s %s (%s) - %d pts | Admin: %b", firstName, lastName, username, score, admin);
+        } 
 
         //do we need to create constructor, setter, and getter?
 
@@ -281,8 +293,125 @@ public class EcoQuest {
         user.addPoints(earned);
         System.out.println("✅ You earned " + earned + " points!");
     }
+    /*
+      Dedicated menu for Admin users - Shubham
+     */
+    public static void adminMenu(Scanner sc, ArrayList<User> users) {
+        int adminDecision = 0;
+
+        while (adminDecision != 5) {
+            System.out.println("\n--- ADMIN MENU ---");
+            System.out.println("1. Leaderboard Modify (Placeholder)");
+            System.out.println("2. Region Select (Placeholder)");
+            System.out.println("3. Modify User"); 
+            System.out.println("4. Display Leaderboard");
+            System.out.println("5. Exit Admin Menu");
+            System.out.print("Enter choice: ");
+
+            if (sc.hasNextInt()) {
+                adminDecision = sc.nextInt();
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.next(); 
+                continue;
+            }
+
+            switch (adminDecision) {
+                case 1:
+                    
+                    System.out.println("Leaderboard Modify (Placeholder)");
+                    break;
+                case 2:
+                    
+                    System.out.println("Region Select (Placeholder)");
+                    break;
+                case 3:
+                    // ADDED: Call method to manage user data - Shubham
+                    modifyUserMenu(sc, users); 
+                    break; 
+                case 4:
+                
+                    displayLeaderboard(users);
+                    break;
+                case 5:
+                    System.out.println("Exiting Admin Menu. Returning to regular user flow or logging out.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Allows an Admin to search for a user by username and modify their data (score/admin status).
+     */
+    public static void modifyUserMenu(Scanner sc, ArrayList<User> users) {
+        System.out.println("\n--- MODIFY USER DATA ---");
+        System.out.print("Enter the username of the user to modify: ");
+        String targetUsername = sc.next();
+
+        User targetUser = null;
+        
+        for (User u : users) {
+            if (u.getUsername().equals(targetUsername)) {
+                targetUser = u;
+                break;
+            }
+        }
+
+        if (targetUser == null) {
+            System.out.println("❌ User not found with username: " + targetUsername);
+            return;
+        }
+
+        System.out.println("\nFound User: " + targetUser);
+        System.out.println("What would you like to modify?");
+        System.out.println("1. Change Score");
+        System.out.println("2. Toggle Admin Status (Current: " + (targetUser.isAdmin() ? "ADMIN" : "REGULAR") + ")");
+        System.out.println("3. Back to Admin Menu");
+        System.out.print("Enter choice: ");
+
+        int modifyChoice;
+        if (sc.hasNextInt()) {
+            modifyChoice = sc.nextInt();
+        } else {
+            System.out.println("Invalid input. Returning to Admin Menu.");
+            sc.next();
+            return;
+        }
+
+        switch (modifyChoice) {
+            case 1:
+                System.out.print("Enter NEW score for " + targetUsername + " (Current: " + targetUser.getScore() + "): ");
+                if (sc.hasNextInt()) {
+                    int newScore = sc.nextInt();
+                    targetUser.setScore(newScore); 
+                    System.out.println("✅ Score updated to " + newScore + " for " + targetUsername);
+                } else {
+                    System.out.println("Invalid score input. Score not changed.");
+                    sc.next();
+                }
+                break;
+
+            case 2:
+                
+                targetUser.setAdmin(!targetUser.isAdmin()); 
+                System.out.println("✅ Admin status toggled to: " + (targetUser.isAdmin() ? "ADMIN" : "REGULAR"));
+                break;
+
+            case 3:
+                System.out.println("Returning to Admin Menu.");
+                break;
+                
+            default:
+                System.out.println("Invalid choice. Returning to Admin Menu.");
+                break;
+        }
+    }
 
 }//file close
 
-}
+
+
 
