@@ -8,17 +8,6 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
-/* Currently needed
- * Login/Admin Check
- * Create Admin Class actions for Switch case
- * Create Functionality for user switch case
- * Create nested loop functions so the menus work properly
- * Integrate User class into switch case
- * ---After Functionality, Before Submission---
- * Code Organizing
- * Optional features if we have time
- * Quality Test
- */
 
 public class EcoQuest {
     private static ArrayList<User> users = new ArrayList<>();
@@ -35,7 +24,7 @@ public class EcoQuest {
         ArrayList<User> users = loadUsers();
         
         //Start, Select Region
-        System.out.println("Hello, Welcome to EcoQuest (recycle emoji)\nPlease select your region:\n1.Dallas, Texas (Beta)\n");
+        System.out.println("Hello, Welcome to EcoQuest ♻️\nPlease select your region:\n1.Dallas, Texas (Beta)\n");
         region = Scanner.nextInt(); //Really a placeholder for now, we only have 1 region. 
 
         //Enter User details 
@@ -75,44 +64,7 @@ public class EcoQuest {
                 return;
             }
         }
-        /*THIS PART IS NOT NEEDED I ADDED A BETTER IMPLEMENTATION OF THE ADMIN  MENU - SHUBHAM 
-        boolean admin = adminCheck(username,pin); //MARKER: check admin status for the current user
-        boolean signin = login.authenticate(username,pin); //THIS IS JUST A MARKER FOR NOW
-        
-        if(signin == false){
-            System.out.println("Log in failed, make new account (PlaceHodlder text)");
-        }
 
-        //Admin Log in if(ADMIN TRUE && SIGNINSUCCESSFUL TRUE) : Switch function of controls, no regular controls, purely utility 
-        //add if admin true, load admin switch. 
-        System.out.println("Admin: Firstname Lastname\nPlease use regular signin to track stats");
-
-        //while(Decision != 5) //marker
-        switch(Decision){
-            case 1:
-            System.out.println("Leaderboard Modify");
-            break;
-            
-            case 2:
-            System.out.println("Region Select");
-            break;
-            
-            case 3:
-            System.out.println("User Modify (Per Region)");
-            break;
-            
-            case 4:
-            displayLeaderboard(users); // ADDED: call leaderboard display-Saish
-            break;
-            
-            case 5:
-            System.out.println("Exit");
-            break;
-
-            default:
-            System.out.println("Default Statement");
-            break;
-        }//close admin switch*/
         if (currentUser.isAdmin()) {
             System.out.println("\n--- ADMIN LOGIN SUCCESSFUL ---");
             // Call the admin menu
@@ -120,8 +72,6 @@ public class EcoQuest {
             saveUsers(users);
         }
         
-
-        //Regular Log in: Select Region, Display LeaderBoard, Add activity, Points shop(?), "battle pass"(?), history, account management
         //Regular Log in: Select Region, Display LeaderBoard, Add activity, Points shop(?), "battle pass"(?), history, account management
         System.out.println("Welcome back " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
@@ -165,51 +115,6 @@ public class EcoQuest {
         Scanner.close();
     }//main statement close
 
-    public class Loginsystem {
-        //WIP, code is fussy
-    }
-
-    public class User {
-
-        private String firstName;
-        private String lastName;
-        private int score;
-        private String username;
-        private int pin;
-        private boolean admin; // ADDED: admin flag-saish
-
-        // ADDED: constructor-Saish
-        public User(String firstName, String lastName, String username, int pin, int score, boolean admin) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.username = username;
-            this.pin = pin;
-            this.score = score;
-            this.admin = admin;
-        }
-
-        // ADDED: Setters for Admin to directly modify score and admin status - Shubham
-        public void setScore(int score) { this.score = score; }
-        public void setAdmin(boolean admin) { this.admin = admin; }
-        
-        // ADDED: getters and setters-Saish
-        public String getFirstName() { return firstName; }
-        public String getLastName() { return lastName; }
-        public String getUsername() { return username; }
-        public int getPin() { return pin; }
-        public int getScore() { return score; }
-        public boolean isAdmin() { return admin; }
-        public void addPoints(int pts) { this.score += pts; }
-        
-        @Override
-        public String toString() {
-            return String.format("%s %s (%s) - %d pts | Admin: %b", firstName, lastName, username, score, admin);
-        } 
-
-        //do we need to create constructor, setter, and getter?
-
-    }
-
     public enum Points {
         RECYCLED(10),
         CLEAN_STREET(50),
@@ -236,7 +141,7 @@ public class EcoQuest {
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length >= 6) {
-                    users.add(new EcoQuest().new User(
+                    users.add(new User(
                         parts[0], parts[1], parts[2],
                         Integer.parseInt(parts[3]),
                         Integer.parseInt(parts[4]),
@@ -411,6 +316,7 @@ public class EcoQuest {
     }
 
 }//file close
+
 
 
 
