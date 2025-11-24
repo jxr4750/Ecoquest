@@ -24,7 +24,7 @@ public class EcoQuest {
         ArrayList<User> users = loadUsers();
         
         //Start, Select Region
-        System.out.println("Hello, Welcome to EcoQuest ♻️\nPlease select your region:\n1.Dallas, Texas (Beta)\n");
+        System.out.println("Hello, Welcome to EcoQuest ♻️ \nPlease select your region:\n1.Dallas, Texas (Beta)\n");
         region = Scanner.nextInt(); //Really a placeholder for now, we only have 1 region. 
 
         //Enter User details 
@@ -78,12 +78,11 @@ public class EcoQuest {
         // ADDED: Reset Decision for user menu-Saish
         Decision = 0;
 
-        while (Decision != 4) { // ADDED: loop for user menu-Saish
+        while (Decision != 3) { // ADDED: loop for user menu-Saish
             System.out.println("\n--- USER MENU ---");
             System.out.println("1. Leaderboard");
             System.out.println("2. Add Daily Task (Add Points)");
-            System.out.println("3. Modify Account");
-            System.out.println("4. Exit");
+            System.out.println("3. Exit");
             System.out.print("Enter choice: ");
             Decision = Scanner.nextInt();
 
@@ -96,13 +95,9 @@ public class EcoQuest {
                     addPointsMenu(Scanner, currentUser); // ADDED-Saish
                     saveUsers(users);
                     break;
-                    
-                case 3:
-                    System.out.println("Modify Account (placeholder)");
-                    break;
 
-                case 4:
-                    System.out.println("Exit");
+                case 3:
+                    System.out.println("Goodbye!");
                     break;
 
                 default:
@@ -206,8 +201,8 @@ public class EcoQuest {
 
         while (adminDecision != 5) {
             System.out.println("\n--- ADMIN MENU ---");
-            System.out.println("1. Leaderboard Modify (Placeholder)");
-            System.out.println("2. Region Select (Placeholder)");
+            System.out.println("1. Leaderboard Modify (Beta)");
+            System.out.println("2. Region Select (Beta)");
             System.out.println("3. Modify User"); 
             System.out.println("4. Display Leaderboard");
             System.out.println("5. Exit Admin Menu");
@@ -224,11 +219,11 @@ public class EcoQuest {
             switch (adminDecision) {
                 case 1:
                     
-                    System.out.println("Leaderboard Modify (Placeholder)");
+                    System.out.println("Leaderboard Modify");
                     break;
                 case 2:
                     
-                    System.out.println("Region Select (Placeholder)");
+                    System.out.println("More Regions to come soon (Beta)");
                     break;
                 case 3:
                     // ADDED: Call method to manage user data - Shubham
@@ -239,7 +234,7 @@ public class EcoQuest {
                     displayLeaderboard(users);
                     break;
                 case 5:
-                    System.out.println("Exiting Admin Menu. Returning to regular user flow or logging out.");
+                    System.out.println("Exiting Admin Menu. Returning to regular user flow");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
