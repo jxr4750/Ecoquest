@@ -14,6 +14,7 @@ public class EcoQuest {
     
     public static void main(String[] args) {
         Scanner Scanner = new Scanner(System.in);
+        //Created Main Statement/Structure, made interface/user input - Joseph
         //Load up the files, if it doesnt exist, then create
         String username;
         int Decision = 0;
@@ -110,7 +111,7 @@ public class EcoQuest {
         Scanner.close();
     }//main statement close
 
-    public enum Points {
+    public enum Points { //Created Enumerated list for points - Joseph
         RECYCLED(10),
         CLEAN_STREET(50),
         VOLUNTEER(100);

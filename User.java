@@ -1,5 +1,5 @@
 public class User {
-
+//Split User Class to separate Java file - Joseph
         private String firstName;
         private String lastName;
         private int score;
